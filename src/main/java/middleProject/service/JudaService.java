@@ -12,7 +12,7 @@ import middleProject.domain.GoodsTypeVO;
 import middleProject.domain.GoodsVO;
 import middleProject.domain.LoginVO;
 import middleProject.domain.MemberVO;
-import middleProject.domain.PayVO;
+import middleProject.domain.PayListVO;
 
 public interface JudaService {
 	
@@ -35,7 +35,7 @@ public interface JudaService {
 	List<GoodsVO> getGoodsList(GoodsTypeVO vo);
 	
 	// 상품상세 띄우기
-	GoodsVO getGoods(String goods_id);
+	GoodsVO getGoods(Integer goods_id);
 	
 // =======================================================	
 	/* [ 상품 상세 페이지 ] */
@@ -47,14 +47,11 @@ public interface JudaService {
 	void insertCart(CartRowVO vo);
 		
 	// 장바구니를 띄우기
-	List<CartVO> getCart(String member_id);
+	List<CartVO> getCart(Integer member_id);
 		
 	// 장바구니의 상품의 수량을 바꾸기
 	void updateCart(CartRowVO vo);
 		
-// =======================================================	
-
-	
 // =======================================================	
 	/* [ 장바구니 ] */
 	
@@ -62,6 +59,18 @@ public interface JudaService {
 	void deleteCart(CartRowVO vo);
 	
 	// 구매하기
-	void insertOrder(PayVO payVo);
+	void insertOrder(PayListVO payVo);
+	
+// =======================================================
+	/* [ 결제창 ] */
+	
+	// 카트의 상품 목록을 결제창에 띄우기
+	List<CartVO> getPayCart(Integer member_id);
+	
+	// 결제할 상품을 바로 결제창에 띄우기
+	CartVO getPayOne(Integer member_id);
+	
+	// 회원 정보를 결제창에 올리기
+	HashMap<String, String> getMember(Integer member_id);
 	
 }

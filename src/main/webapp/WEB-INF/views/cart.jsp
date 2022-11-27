@@ -23,7 +23,7 @@
 	<title>장바구니</title>
 
 	<script type="text/javascript">
-		var member_id = '<%=(String)session.getAttribute("member_id")%>';
+		var member_id = '<%=(Integer)session.getAttribute("member_id")%>';
 		
 		if(member_id == 'null') {
 			alert('로그인해야 이용할 수 있는 페이지입니다.');
@@ -87,8 +87,9 @@
 	<!-- 장바구니 -->
 	<div class="untree_co-section before-footer-section">
            <div class="container">
+           
              <div class="row my-5">
-               <form class="col-md-12" method="post">
+               <form class="col-md-12" id="cartItems" method="post" action="payCart.do">
                  <div class="site-blocks-table">
                  	<input type="hidden" id="member_id" class="member_id" value="${sessionScope.member_id}">
                    <table id="cart-table" class="table">
@@ -140,10 +141,10 @@
              </div>
              
              <div style="text-align:center">
-             	<button class="btn btn-outline-black btn-sm btn-block">계속 쇼핑하기</button>
+             	<a href="shop.do?goods_type=전체&goods_sort=like_count DESC"><button class="btn btn-outline-black btn-sm btn-block">계속 쇼핑하기</button></a>
              </div>
              
-             <div class="row my-5 justify-content-center">
+             <div class="row justify-content-center">
              	<div class="under-cart-table">
              		<table id="calTotal-table" class="table table-responsive">
              			<tr>
@@ -156,7 +157,7 @@
              				<td rowspan="2"></td>
              				<td rowspan="2">총 주문 금액</td>
              				<td rowspan="2"><span class="finalTotalPrice_span"></span>원</td>
-             				<td rowspan="2"><button class="btn btn-black">주문하기</button></td>
+             				<td rowspan="2"><button class="btn btn-black" id="payBtn">주문하기</button></td>
              			</tr>
              			<tr>
              				<td><span class="totalPrice_span"></span>원</td>

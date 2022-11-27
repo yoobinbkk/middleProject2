@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class GoodsVO {
 	
-	private String goods_id;				// 상품코드(번호)
+	private Integer goods_id;				// 상품코드(번호)
 	private String goods_name;			// 상품명
 	private Integer price;					// 가격
 	private Integer delivery_charge;	// 택배비

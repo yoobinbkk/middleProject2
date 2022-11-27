@@ -58,7 +58,11 @@ $(function(){
 
     $('.input-group').on('click', '.decrease', function(e) {
         decrementValue(e);
-        updateCart(e);
+        
+        var currentVal = parseInt(parent.find('input.quantity-amount').val());
+        if(currentVal>1)
+        	updateCart(e);
+        	
         setTotalInfo();
     });
     
@@ -158,6 +162,19 @@ $(function(){
 	}
 	
 	
+//-----------------------------------------------------------------------------------
+
+
+//***** 결제하기를 클릭했을 때 *******
+// ------------------------------------------------------------------------------
+
+	// 결제하기 버튼
+	$('#payBtn').click(function(){
+		
+		$('#cartItems').submit();
+		
+	});
+
 //-----------------------------------------------------------------------------------
 
 });

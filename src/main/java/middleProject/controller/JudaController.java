@@ -1,5 +1,7 @@
 package middleProject.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import middleProject.domain.CartRowVO;
+import middleProject.domain.CartVO;
 import middleProject.domain.GoodsTypeVO;
 import middleProject.domain.LoginVO;
 import middleProject.domain.MemberVO;
@@ -36,7 +39,7 @@ public class JudaController {
 	public void insertMember(MemberVO vo, Model m) {
 		vo.setTel(vo.getP_num1()+"-"+vo.getP_num2()+"-"+vo.getP_num3());
 		vo.setBirth(vo.getYy()+"-"+vo.getMm()+"-"+vo.getDd());
-
+		System.out.println(vo);
 		m.addAttribute("result", judaService.insertMember(vo));
 		m.addAttribute("member_id", vo.getMember_id()); // ## 한 줄 추가한 거 맞는지 확인 !!! 회원가입 축하할 때 아이디 명시하기 위해서
 	}
@@ -77,21 +80,14 @@ public class JudaController {
   	
   	// 상품상세 페이지
   	@RequestMapping("sangse.do")
-  	public void getGoods(String goods_id, Model m) {
+  	public void getGoods(Integer goods_id, Model m) {
   		m.addAttribute("vo", judaService.getGoods(goods_id));
   	}
-  	
-//  	// 구매하기 (상품상세)
-//  	@RequestMapping("pay.do")
-//  	public void insertOrder(PayVO payVo) {
-//  		payVo.setDelivery_tel(payVo.getP_num1()+"-"+payVo.getP_num2()+"-"+payVo.getP_num3());
-//  		judaService.insertOrder(payVo);
-//  	}
   	
   	// 장바구니 내용을 가져오기 (장바구니창 띄우기용)
   	@RequestMapping("cart.do")
   	public void getCart(Model m, HttpSession session) {
-  		m.addAttribute("cartList", judaService.getCart((String)session.getAttribute("member_id")));
+  		m.addAttribute("cartList", judaService.getCart((Integer)session.getAttribute("member_id")));
   	}
     
 // =======================================================	
@@ -105,6 +101,35 @@ public class JudaController {
   	}
   	
   	
+// =======================================================	
+	/* [ 결제창 ] */
+   
+	// 카트 결제할 때 뜨는 결제창
+  	@RequestMapping("payCart.do")
+  	public String getPayCart(List<CartVO> pre_vo, HttpSession session, Model m) {
+  		Integer md = (Integer)session.getAttribute("member_id");
+  		m.addAttribute("payItemList", judaService.getPayCart(md));
+  		m.addAttribute("member", judaService.getMember(md));
+  		return "pay";
+  	}
+  	
+  	// 상세 페이지에서 바로 결제할 때 뜨는 결제창
+   	@RequestMapping("payOne.do")
+   	public String getPayOne(Integer amount, HttpSession session, Model m) {
+   		Integer md = (Integer)session.getAttribute("member_id");
+   		CartVO vo = judaService.getPayOne(md);
+   		vo.setC_amount(amount);
+  		m.addAttribute("payItemList", vo);
+  		m.addAttribute("member", judaService.getMember(md));
+   		return "pay";
+   	}
+   	
+//	// 구매하기 (상품상세)
+//	@RequestMapping("pay.do")
+//	public void insertOrder(PayVO payVo) {
+//		payVo.setDelivery_tel(payVo.getP_num1()+"-"+payVo.getP_num2()+"-"+payVo.getP_num3());
+//		judaService.insertOrder(payVo);
+//	}
   		
 } // end of controller
 // =======================================================	 

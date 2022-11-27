@@ -37,7 +37,7 @@
 <script src="resources/js/pay.js"></script>
 
 	<script type="text/javascript">
-		var member_id = '<%=(String)session.getAttribute("member_id")%>';
+		var member_id = '<%=(Integer)session.getAttribute("member_id")%>';
     
 		if(member_id == 'null') {
 			alert('로그인해야 이용할 수 있는 페이지입니다.');
@@ -50,9 +50,7 @@
    <div id="wrap">
 
       <!-- 상단 메뉴탭 -->
-      <nav
-         class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
-         arial-label="Furni navigation bar">
+      <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
          <div class="container">
             <a class="navbar-brand" href="index.do">
             <img src="resources/images/로고.png" alt="logo"></a>
@@ -88,8 +86,9 @@
          </div>
       </nav>
 
-<!-- [시작] 주문 / 결제 전체 -->
+		<!-- [시작] 주문 / 결제 전체 -->
 		<div id="container">
+		
 			<!-- content -->
 			<div id="order" class="order_sc _root _cartDiv">
 
@@ -107,13 +106,16 @@
 				<br />
 				<!-- [끝] 주문/ 결제  -->
 				
+				
 				<!-- 주문 상품 카테고리(상품명, 배송비, 수량, 상품금액) 끝-->
 				<div class="order_content">
 					<div class="product_area">
+					
 						<table class="tb_products">
 							<caption>주문내역</caption>
 							<colgroup>
-								<col width="550">
+								<col width="250">
+								<col width="300">
 								<col width="135">
 								<col width="135">
 								<col width="135">
@@ -121,7 +123,7 @@
 							</colgroup>
 							<thead class="point_plus">
 								<tr>
-									<th scope="col" class="product">상품명</th>
+									<th scope="col" colspan="2" class="goods">상품명</th>
 									<th scope="col">배송비</th>
 									<th scope="col">수량</th>
 									<th scope="col" class="col_price">상품금액</th>
@@ -130,85 +132,55 @@
 							<!-- 주문 상품 카테고리(상품명, 배송비, 수량, 상품금액) 끝-->
 
 
-
-							<!-- 첫번째 상품 시작-->
-							<tr>
-								<!--  상품이미지 -->
-								<td><span class="bdr"></span>
-									<div class="product_info">
-										<a class="product_thmb" target="_blank"> <span
-											class="goods"></span><img src="resources/images/스윗마마결제.jpg"
-											width=100 height=100 alt="" width="92" height="92">
-										</a>
-
+							<!-- 상품 목록 -->
+							<c:if test="${payItemList!=null}">
+								<c:forEach items="${payItemList}" var="vo">
+									<tr>
+										<!--  상품이미지 -->
+										<td><span class="bdr"></span>
+											<div class="goods_info">
+												<a href="sangse.do?goods_id=${vo.goods_id}">
+													<img src="resources/images/${vo.img_file}" width=100 height=100 alt="" width="92" height="92">
+												</a>
+											</div>
+										</td>
+		
 										<!--  상품명 -->
-										<div class="product_dsc">
-											<div class="additional_status"></div>
-											<a
-												href="https://shopping.naver.com/outlink/itemdetail/6918605682"
-												target="_blank" class="product_name"> <strong>상품명을
-													적어주세요.</strong>
-											</a>
-										</div>
-										<span class="vm"></span>
-									</div></td>
-
-								<!--  배송비 -->
-								<td rowspan="1"><span class="deli_fee"><span
-										class="sp_order ico_deli"></span><span
-										class="sum _deliveryPrice2022111882962433">3,000원<a
-											href="#"></a> <!--N=a:ord.deldetail--></span><span
-										class="_deliveryPriceText2022111882962433"></span></span></td>
-
-								<!--  수량 -->
-								<td>1개</td>
-
-								<!--  상품 금액 -->
-								<td class="col_price"><strong><em
-										class="_productOrderPayAmt2022111839485933">32,000</em>원</strong></td>
-							</tr>
-							<!-- 첫번째 상품 끝-->
-
-
-							<!-- 두번째 상품 시작-->
-							<tr>
-								<!--  상품이미지 -->
-								<td><span class="bdr"></span>
-									<div class="product_info">
-										<a class="product_thmb" target="_blank"> <span
-											class="goods"></span><img src="resources/images/스윗마마결제.jpg"
-											width=100 height=100 alt="" width="92" height="92">
-										</a>
-
-										<!--  상품명 -->
-										<div class="product_dsc">
-											<div class="additional_status"></div>
-											<a
-												href="https://shopping.naver.com/outlink/itemdetail/6918605682"
-												target="_blank" class="product_name"> <strong>상품명을
-													적어주세요.</strong>
-											</a>
-										</div>
-										<span class="vm"></span>
-									</div></td>
-
-								<!--  배송비 -->
-								<td rowspan="1"><span class="deli_fee"><span
-										class="sp_order ico_deli"></span><span
-										class="sum _deliveryPrice2022111882962433">3,000원<a
-											href="#"></a> <!--N=a:ord.deldetail--></span><span
-										class="_deliveryPriceText2022111882962433"></span></span></td>
-
-								<!--  수량 -->
-								<td>1개</td>
-
-								<!--  상품 금액 -->
-								<td class="col_price"><strong><em
-										class="_productOrderPayAmt2022111839485933">32,000</em>원</strong></td>
-							</tr>
-							<!-- 두번째 상품 끝-->
+										<td style="text-align:left;">
+											<div class="goods_dsc">
+												<a href="sangse.do?goods_id=${vo.goods_id}" target="_blank" class="goods_name">
+													<strong>${vo.goods_name}</strong>
+												</a>
+											</div>
+											<input type="hidden" class="goods_id" value="${vo.goods_id}">
+										</td>
+		
+										<!--  배송비 -->
+										<td rowspan="1">
+											<span class="deli_fee">
+												<span class="sp_order ico_deli"></span>
+												<span class="sum _deliveryPrice2022111882962433">${vo.delivery_charge}원
+													<a href="#"></a> <!--N=a:ord.deldetail-->
+												</span>
+												<span class="_deliveryPriceText2022111882962433"></span>
+											</span>
+										</td>
+		
+										<!--  수량 -->
+										<td>${vo.c_amount}개</td>
+		
+										<!--  상품 금액 -->
+										<td class="col_price">
+											<strong><em class="_productOrderPayAmt2022111839485933">${vo.price}</em>원</strong>
+										</td>
+									</tr>
+								</c:forEach>
+							</c:if>
+							<!-- 상품 목록 끝 -->
+							
 							</tbody>
 						</table>
+						
 					</div>
 
 
@@ -271,10 +243,10 @@
 							<h5>주문자 정보</h5>
 							<br />
 							<ul class="user_info">
-								<li>윤희선</li>
-								<li class="_telNoHighlight "><span class="_memberTelNumber">010-****-****</span>
+								<li>${member.name}</li>
+								<li class="_telNoHighlight "><span class="_memberTelNumber">${member.tel}</span>
 									<!--N=a:ord.modifyphone--></li>
-								<li><span class="_memberEmailAddress">******@*****.***</span></li>
+								<li><span class="_memberEmailAddress">${member.email}</span></li>
 							</ul>
 							<hr />
 							<ul class="info_dsc">

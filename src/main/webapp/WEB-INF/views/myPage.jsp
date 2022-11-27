@@ -19,7 +19,7 @@
 <link href="resources/css/style.css" rel="stylesheet">
 
 <script type="text/javascript">
-	var member_id = '<%=(String)session.getAttribute("member_id")%>';
+	var member_id = '<%=(Integer)session.getAttribute("member_id")%>';
    
 	if(member_id == 'null') {
 		alert('로그인해야 이용할 수 있는 페이지입니다.');

@@ -3,7 +3,7 @@ package middleProject.domain;
 import lombok.Data;
 
 @Data
-public class PayVO {
+public class PayListVO {
    
    private Integer o_sum;
    private String member_id;

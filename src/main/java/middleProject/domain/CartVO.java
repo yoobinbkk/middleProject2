@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CartVO {
 	
-	private String goods_id;				// 상품번호
+	private Integer goods_id;				// 상품번호
 	private String img_file;					// 이미지 파일
 	private String goods_name;			// 상품명
 	private Integer price;					// 가격

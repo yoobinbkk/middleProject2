@@ -1,5 +1,6 @@
 package middleProject.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +15,7 @@ import middleProject.domain.GoodsTypeVO;
 import middleProject.domain.GoodsVO;
 import middleProject.domain.LoginVO;
 import middleProject.domain.MemberVO;
-import middleProject.domain.PayVO;
+import middleProject.domain.PayListVO;
 
 @Service("judaService")
 public class JudaServiceImpl implements JudaService {
@@ -54,7 +55,7 @@ public class JudaServiceImpl implements JudaService {
 	}
 	
 	// 상품상세 띄우기
-	public GoodsVO getGoods(String goods_id) {
+	public GoodsVO getGoods(Integer goods_id) {
 		return judaDAO.getGoods(goods_id);
 	}
 	
@@ -77,7 +78,7 @@ public class JudaServiceImpl implements JudaService {
 	}
 	
 	// 장바구니를 띄우기
-	public List<CartVO> getCart(String member_id) {
+	public List<CartVO> getCart(Integer member_id) {
 		return judaDAO.getCart(member_id);
 	}
 	
@@ -88,7 +89,7 @@ public class JudaServiceImpl implements JudaService {
 	}
 
 // =======================================================		
-/* [ 장바구니 ] */
+	/* [ 장바구니 ] */
 	
 	// 장바구니 행 삭제
 	public void deleteCart(CartRowVO vo) {
@@ -96,8 +97,26 @@ public class JudaServiceImpl implements JudaService {
 	}
 		
 	// 구매하기
-	public void insertOrder(PayVO payVo) {
+	public void insertOrder(PayListVO payVo) {
 		judaDAO.insertOrder(payVo);
+	}
+
+// =======================================================		
+	/* [ 결제창 ] */
+
+	// 카트의 상품 목록을 결제창에 띄우기
+	public List<CartVO> getPayCart(Integer member_id) {
+		return judaDAO.getPayCart(member_id);
+	}
+
+	// 결제할 상품을 바로 결제창에 띄우기
+	public CartVO getPayOne(Integer member_id) {
+		return judaDAO.getPayOne(member_id);
+	}
+
+	// 회원 정보를 결제창에 올리기
+	public HashMap<String, String> getMember(Integer member_id) {
+		return judaDAO.getMember(member_id);
 	}
 	
 	

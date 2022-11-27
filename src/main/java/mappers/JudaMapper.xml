@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE			member_id = #{member_id} AND password = #{password}
 	</select>
 
-	<select id="getGoods" parameterType="string" resultType="GoodsVO">
+	<select id="getGoods" parameterType="Integer" resultType="GoodsVO">
       SELECT * FROM Goods
       WHERE goods_id = #{goods_id}
    	</select>
@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 장바구니를 띄울 때 필요한 정보 가져오기 -->
-	<select id="getCart" parameterType="String" resultType="CartVO">
+	<select id="getCart" parameterType="Integer" resultType="CartVO">
 		SELECT c.C_AMOUNT AS C_AMOUNT, g.goods_id goods_id, g.GOODS_NAME GOODS_NAME, g.IMG_FILE IMG_FILE, g.PRICE PRICE, g.DELIVERY_CHARGE DELIVERY_CHARGE
 		FROM Cart c INNER JOIN GOODS g 		ON c.GOODS_ID = g.GOODS_ID
 					INNER JOIN "MEMBER" m 	ON c.MEMBER_ID = m.MEMBER_ID
@@ -63,6 +63,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE member_id = #{member_id} AND goods_id = #{goods_id}
 	</delete>
 	
+<!-- ===================================================================================== -->
+
+	<!--==== 결제창 ====-->
+	
+	<!-- 카트의 상품 목록을 결제창에 띄우기 -->
+	<select id="getPayCart" parameterType="Integer" resultType="CartVO">
+		SELECT c.C_AMOUNT AS C_AMOUNT, g.goods_id goods_id, g.GOODS_NAME GOODS_NAME, g.IMG_FILE IMG_FILE, g.PRICE PRICE, g.DELIVERY_CHARGE DELIVERY_CHARGE
+		FROM Cart c INNER JOIN GOODS g 		ON c.GOODS_ID = g.GOODS_ID
+					INNER JOIN "MEMBER" m 	ON c.MEMBER_ID = m.MEMBER_ID
+		WHERE m.MEMBER_ID = #{member_id} AND g.goods_id in
+		<foreach collection="" item="" index="" open="(" separator="," close=")">>
+		
+		</foreach>
+	</select>
+	
+	<!-- 결제할 상품을 바로 결제창에 띄우기 -->
+	<select id="getPayOne" parameterType="Integer" resultType="CartVO">
+		SELECT goods_id, img_file, goods_name, price, delivery_charge
+		FROM Goods
+		WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 회원 정보를 결제창에 올리기 -->
+	<select id="getMember" parameterType="Integer" resultType="HashMap">
+		SELECT name, tel, email
+		FROM Member
+		WHERE member_id = #{member_id}
+	</select>
+	
 	
 <!-- 로그인 안 할 경우 카트 접근 금지 -->
 
@@ -72,10 +101,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--     	   			   #{addr_detail}, #{delivery_memo}) -->
 <!--    	</insert> -->
    
-<!--    	<insert id="insertOrderList" parameterType="PayVO"> -->
+<!--    <insert id="insertOrderList" parameterType="PayVO"> -->
 <!--       INSERT INTO ORDERLIST -->
 <!--       VALUES (orderlist_seq.nextval, '결제완료', sysdate, #{o_sum}, #{member_id}) -->
-<!--    	</insert> -->
+<!--    </insert> -->
 
 	<!-- ##### 게시판 ##### -->
 	
